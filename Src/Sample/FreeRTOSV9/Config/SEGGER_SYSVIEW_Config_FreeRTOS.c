@@ -73,19 +73,29 @@ extern const SEGGER_SYSVIEW_OS_API SYSVIEW_X_OS_TraceAPI;
 **********************************************************************
 */
 // The application name to be displayed in SystemViewer
-#define SYSVIEW_APP_NAME        "FreeRTOS Demo Application"
+#ifndef SYSVIEW_APP_NAME
+#define SYSVIEW_APP_NAME        "Application"
+#endif
 
 // The target device name
-#define SYSVIEW_DEVICE_NAME     "Cortex-M4"
+#ifndef SYSVIEW_DEVICE_NAME
+#define SYSVIEW_DEVICE_NAME     "ZYNQ 7020"
+#endif
 
 // Frequency of the timestamp. Must match SEGGER_SYSVIEW_GET_TIMESTAMP in SEGGER_SYSVIEW_Conf.h
-#define SYSVIEW_TIMESTAMP_FREQ  (configCPU_CLOCK_HZ)
+#ifndef SYSVIEW_TIMESTAMP_FREQ
+#define SYSVIEW_TIMESTAMP_FREQ  (1000000) //us
+#endif
 
 // System Frequency. SystemcoreClock is used in most CMSIS compatible projects.
-#define SYSVIEW_CPU_FREQ        configCPU_CLOCK_HZ
+#ifndef SYSVIEW_CPU_FREQ
+#define SYSVIEW_CPU_FREQ        (399999996)
+#endif
 
 // The lowest RAM address used for IDs (pointers)
-#define SYSVIEW_RAM_BASE        (0x10000000)
+#ifndef SYSVIEW_RAM_BASE
+#define SYSVIEW_RAM_BASE        (0x0)
+#endif
 
 /********************************************************************* 
 *

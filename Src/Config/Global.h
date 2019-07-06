@@ -68,12 +68,13 @@ Purpose : Global types
 #ifndef GLOBAL_H            // Guard against multiple inclusion
 #define GLOBAL_H
 
-#define U8    unsigned char
-#define U16   unsigned short
-#define U32   unsigned long
-#define I8    signed char
-#define I16   signed short
-#define I32   signed long
+typedef unsigned char U8;
+typedef unsigned short U16;
+typedef unsigned long U32;
+
+typedef signed char I8;
+typedef signed short I16;
+typedef signed long I32;
 
 #ifdef _WIN32
   //
@@ -94,7 +95,9 @@ Purpose : Global types
   //
   #define U64   unsigned long long
   #define I64   signed long long
+#define U64_C
   #define U64_C(x) x##ULL
+#endif
 #endif
 
 #endif                      // Avoid multiple inclusion

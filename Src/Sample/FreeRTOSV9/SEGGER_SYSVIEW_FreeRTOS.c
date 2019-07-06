@@ -288,6 +288,21 @@ void SYSVIEW_RecordU32x5(unsigned Id, U32 Para0, U32 Para1, U32 Para2, U32 Para3
       SEGGER_SYSVIEW_SendPacket(&aPacket[0], pPayload, Id);             // Send the packet
 }
 
+U32 SEGGER_SYSTEM_X_GetTimestamp(void)
+{
+  U64 Cnt64;
+
+  Cnt64 = *(U32*)(0xF8F00200) | (*(U32*)(0xF8F00204) << 32);
+  Cnt64 = Cnt64 * 64 / 400;
+
+  return (U32)Cnt64;
+}
+
+U32 SEGGER_SYSVIEW_X_GetInterruptId(void)
+{
+  return(portICCIAR_INTERRUPT_ACKNOWLEDGE_REGISTER_ADDRESS & 0x3FFUL);
+}
+
 /*********************************************************************
 *
 *       Public API structures
