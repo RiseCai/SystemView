@@ -95,7 +95,7 @@ typedef signed long I32;
   //
   #define U64   unsigned long long
   #define I64   signed long long
-#ifundef U64_C
+#ifndef U64_C
   #define U64_C(x) x##ULL
 #endif
 #endif
