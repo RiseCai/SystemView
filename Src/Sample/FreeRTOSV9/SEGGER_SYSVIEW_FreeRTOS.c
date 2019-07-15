@@ -292,8 +292,8 @@ U32 SEGGER_SYSTEM_X_GetTimestamp(void)
 {
   U64 Cnt64;
 
-  Cnt64 = *(U32*)(0xF8F00200) | (*(U32*)(0xF8F00204) << 32);
-  Cnt64 = Cnt64 * 64 / 400;
+  Cnt64 = (U64)*(U32*)(0xF8F00200) | ((U64)*(U32*)(0xF8F00204) << 32); //This is ZYNQ7020 Global timer address
+  Cnt64 = Cnt64 / 200; //This number can get from the PLL divide
 
   return (U32)Cnt64;
 }
