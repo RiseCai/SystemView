@@ -521,7 +521,7 @@ static void _HandleIncomingPacket(void) {
 #if (SEGGER_SYSVIEW_POST_MORTEM_MODE != 1)
 static int _TrySendOverflowPacket(void) {
   U32 TimeStamp;
-  I32 Delta;
+  U32 Delta;
   int Status;
   U8  aPacket[11];
   U8* pPayload;
@@ -533,7 +533,14 @@ static int _TrySendOverflowPacket(void) {
   // Compute time stamp delta and append it to packet.
   //
   TimeStamp  = SEGGER_SYSVIEW_GET_TIMESTAMP();
-  Delta = TimeStamp - _SYSVIEW_Globals.LastTxTimeStamp;
+  if(_SYSVIEW_Globals.LastTxTimeStamp > TimeStamp)
+  {
+    Delta = 0xffffffff - _SYSVIEW_Globals.LastTxTimeStamp + TimeStamp;
+  }
+  else
+  {
+    Delta = TimeStamp - _SYSVIEW_Globals.LastTxTimeStamp ;
+  }
   MAKE_DELTA_32BIT(Delta);
   ENCODE_U32(pPayload, Delta);
   //
@@ -691,7 +698,14 @@ Send:
   // Compute time stamp delta and append it to packet.
   //
   TimeStamp  = SEGGER_SYSVIEW_GET_TIMESTAMP();
-  Delta = TimeStamp - _SYSVIEW_Globals.LastTxTimeStamp;
+  if(_SYSVIEW_Globals.LastTxTimeStamp > TimeStamp)
+  {
+    Delta = 0xffffffff - _SYSVIEW_Globals.LastTxTimeStamp + TimeStamp;
+  }
+  else
+  {
+    Delta = TimeStamp - _SYSVIEW_Globals.LastTxTimeStamp ;
+  }
   MAKE_DELTA_32BIT(Delta);
   ENCODE_U32(pEndPacket, Delta);
 #if (SEGGER_SYSVIEW_POST_MORTEM_MODE == 1)
@@ -2848,6 +2862,7 @@ int SEGGER_SYSVIEW_IsStarted(void) {
   //
   // Check if host is sending data which needs to be processed.
   //
+#if(SEGGER_SYSVIEW_POST_MORTEM_MODE != 1)
   if (SEGGER_RTT_HASDATA(CHANNEL_ID_DOWN)) {
     if (_SYSVIEW_Globals.RecursionCnt == 0) {   // Avoid uncontrolled nesting. This way, this routine can call itself once, but no more often than that.
       _SYSVIEW_Globals.RecursionCnt = 1;
@@ -2855,6 +2870,7 @@ int SEGGER_SYSVIEW_IsStarted(void) {
       _SYSVIEW_Globals.RecursionCnt = 0;
     }
   }
+#endif
   return _SYSVIEW_Globals.EnableState;
 }
 
