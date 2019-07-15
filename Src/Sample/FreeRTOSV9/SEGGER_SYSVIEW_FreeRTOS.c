@@ -288,7 +288,7 @@ void SYSVIEW_RecordU32x5(unsigned Id, U32 Para0, U32 Para1, U32 Para2, U32 Para3
       SEGGER_SYSVIEW_SendPacket(&aPacket[0], pPayload, Id);             // Send the packet
 }
 
-U32 SEGGER_SYSTEM_X_GetTimestamp(void)
+U32 SEGGER_SYSVIEW_X_GetTimestamp(void)
 {
   U64 Cnt64;
 
